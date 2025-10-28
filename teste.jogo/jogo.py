@@ -131,7 +131,6 @@ exit_button = Rect(WIDTH / 2 - 100, HEIGHT / 2 + 70, 200, 40)
 
 try:
     menu_background = images.load('background.png')
-    # Verifica se o tamanho é 800x600, se não for, será cortada/repetida pelo blit
     if menu_background.get_width() != WIDTH or menu_background.get_height() != HEIGHT:
         print(f"AVISO: Imagem 'background.png' ({menu_background.get_width()}x{menu_background.get_height()}) "
               f"não tem o tamanho exato da tela ({WIDTH}x{HEIGHT}). Será desenhada a partir de (0,0).")
@@ -189,11 +188,11 @@ def draw():
         screen.draw.text("COMEÇAR O JOGO", center=start_button.center, fontsize=20, color=BLACK)
         music_text = f"MÚSICA: {'ON' if music_on else 'OFF'}"
         screen.draw.filled_rect(music_button, "orange")
-        screen.draw.text(music_text.upper(), center=music_button.center, fontsize=20, color=BLACK) # Tamanho e Cor
+        screen.draw.text(music_text.upper(), center=music_button.center, fontsize=20, color=BLACK)
         screen.draw.filled_rect(exit_button, "red")
-        screen.draw.text("SAIR", center=exit_button.center, fontsize=20, color=BLACK) # Tamanho e Cor
+        screen.draw.text("SAIR", center=exit_button.center, fontsize=20, color=BLACK)
         screen.draw.text("ASSETS POR O_LOBSTER (ITCH.IO)", bottomleft=(10, HEIGHT - 10), fontsize=15, color="gray")
-        # -------------------------------------------------------
+
 
     elif game_state == "playing":
         if tile_images:
@@ -208,11 +207,9 @@ def draw():
                 screen.draw.filled_rect(territory_rects[i], territory_colors[i])
         player.draw(); star.draw()
         for enemy in enemies: enemy.draw()
-        # <<< MUDANÇA: Tamanho dos placares aumentado >>>
-        screen.draw.text(f"PONTOS: {pontos}", (10, 10), color='white', fontsize=30) # Tamanho
-        screen.draw.text(f"VIDAS: {vidas}", (WIDTH - 150, 10), color=BLACK, fontsize=30) # Tamanho
-        # ---------------------------------------------
-
+        screen.draw.text(f"PONTOS: {pontos}", (10, 10), color='white', fontsize=30)
+        screen.draw.text(f"VIDAS: {vidas}", (WIDTH - 150, 10), color=BLACK, fontsize=30)
+        
     elif game_state == "game_over":
         screen.fill(RED)
         screen.draw.text("GAME OVER", center=(WIDTH / 2, HEIGHT / 2 - 50), fontsize=50, color=WHITE)
@@ -253,5 +250,6 @@ def on_mouse_down(pos, button):
                 music.stop(); quit()
     elif game_state == "game_over":
          if button == mouse.LEFT: game_state = "menu"
+
 
 pgzrun.go()
